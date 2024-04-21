@@ -38,5 +38,9 @@ jobs:
         run: |
           sudo nginx -t
 
+      - name: Startando nginx
+        run: |
+          sudo /etc/init.d/nginx start    
+
       - name: Recarregando NGINX
         run: sudo nginx -s reload    
