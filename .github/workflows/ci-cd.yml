@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        source: "app/"
+        target: "/var/www/html/app/"
 
       - name: Install AWS CLI
         run: |
@@ -29,7 +31,6 @@ jobs:
           tar -czf - app | aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "Key=InstanceIds,Values=${{ secrets.INSTANCE_ID_PROD }}" \
-            --parameters '{"commands":["sudo rm -rf /var/www/html/app/*", "sudo cp -r -t /var/www/html/app app/*", "sudo chmod -R 755 /var/www/html/app"]}' \
             --timeout-seconds 600 \
             --max-concurrency "50" \
             --max-errors "0"
