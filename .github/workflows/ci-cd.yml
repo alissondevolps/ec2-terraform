@@ -28,7 +28,7 @@ jobs:
         run: |
           tar -czf - app | aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --targets "Key=instance-id,Values=${{ secrets.INSTANCE_ID_PROD }}" \
+            --targets "Key=InstanceIds,Values=${{ secrets.INSTANCE_ID_PROD }}" \
             --parameters '{"commands":["rm -rf /usr/share/nginx/html/*", "tar -xzf - -C /usr/share/nginx/html/"]}' \
             --timeout-seconds 600 \
             --max-concurrency "50" \
