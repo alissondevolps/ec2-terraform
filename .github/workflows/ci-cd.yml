@@ -17,3 +17,26 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
+
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.INSTANCE_REGION_PROD }}
+
+      - name: Realizando Upload app para a EC2
+        run: |
+          tar -czf - app | aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instance-id,Values=${{ secrets.INSTANCE_ID_PROD }}" \
+            --parameters '{"commands":["rm -rf /usr/share/nginx/html/*", "tar -xzf - -C /usr/share/nginx/html/"]}' \
+            --timeout-seconds 600 \
+            --max-concurrency "50" \
+            --max-errors "0"
+
+      - name: Verificando se o NGINX is running
+        run: |
+          sudo systemctl is-active nginx
+
+      - name: Recarregando NGINX
+        run: sudo systemctl reload nginx    
