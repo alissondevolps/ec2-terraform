@@ -29,7 +29,7 @@ jobs:
           tar -czf - app | aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "Key=InstanceIds,Values=${{ secrets.INSTANCE_ID_PROD }}" \
-            --parameters '{"commands":["cd /var/www/html && tar -xzf -", "chmod -R 755 /var/www/html/app"]}' \
+            --parameters '{"commands":["cd /var/www/html && tar -xzf - --strip-components=1", "chmod -R 755 /var/www/html/app"]}' \
             --timeout-seconds 600 \
             --max-concurrency "50" \
             --max-errors "0"
