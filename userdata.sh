@@ -3,7 +3,6 @@ apt-get update && apt-get install -yq software-properties-common \
     build-essential \
     apt-utils \
     dialog \
-    less \
     iputils-ping \
     wget \
     curl \
