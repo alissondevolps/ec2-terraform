@@ -59,6 +59,8 @@ Outputs:
 - INSTANCE_REGION_PROD = sua região na aws
 - INSTANCE_ID_PROD = id_da_instancia_ec2
 
+![alt text](fluxo-ci-cd.png)
+
 8º - Para acessar a aplicação após o deploy finalizar é só acessar http://public_ip_address/app
 
 - OBSERVAÇÃO IMPORTANTE: Para destruir toda a infraestrutura criada é só dar o comando abaixo:
