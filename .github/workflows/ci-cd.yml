@@ -34,9 +34,9 @@ jobs:
             --max-concurrency "50" \
             --max-errors "0"
 
-      - name: Verificando se o NGINX is running
+      - name: Verificar se tem erros de configuração nginx
         run: |
-          sudo systemctl is-active nginx
+          sudo nginx -t
 
       - name: Recarregando NGINX
-        run: sudo systemctl reload nginx    
+        run: sudo nginx -s reload    
